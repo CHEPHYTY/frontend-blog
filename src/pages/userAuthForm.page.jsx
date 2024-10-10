@@ -27,9 +27,9 @@ const UserAuthForm = ({ type }) => {
 
     let { userAuth: { accessToken, refreshToken, user }, setUserAuth } = useContext(UserContext);
 
-    console.log("accessToken: " + accessToken)
-    console.log("refreshToken: " + refreshToken)
-    console.log("user: " + JSON.stringify(user))
+    // console.log("accessToken: " + accessToken)
+    // console.log("refreshToken: " + refreshToken)
+    // console.log("user: " + JSON.stringify(user))
 
     const userAuthThroughServer = (serverRoute, formData) => {
         axios
@@ -44,8 +44,8 @@ const UserAuthForm = ({ type }) => {
                 storeInSession('refreshToken', refreshToken);
                 storeInSession('user', JSON.stringify(user));
 
-                console.log(sessionStorage);
-                console.log(data);
+                // console.log(sessionStorage);
+                // console.log(data);
 
                 toast.success(data.message);
             })
