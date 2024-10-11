@@ -3,14 +3,27 @@ import logo from "../imgs/logo.png";
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import { lookInSession } from "../common/session";
+import UserNavigationPanel from "./user-navigation.component";
 
 
 const Navbar = () => {
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
 
+    const [userNavPanel, setUserNavPanel] = useState(false);
+
     const { userAuth, userAuth: { accessToken } } = useContext(UserContext)
 
     // console.log(user.profile_img)
+
+    const handleUserNavPanel = () => {
+        setUserNavPanel(current => !current);
+    }
+    const handleBlur = () => {
+
+        setTimeout(() => {
+            setUserNavPanel(false)
+        }, 200)
+    }
 
     let user = JSON.parse(lookInSession("user"))
 
@@ -58,10 +71,14 @@ const Navbar = () => {
                                     </button>
                                 </Link>
 
-                                <div className="relative">
+                                <div className="relative" onClick={handleUserNavPanel} onBlur={handleBlur}>
                                     <button className="w-12 h-12 mt-1">
                                         <img src={user.profile_img} alt="" className="w-full h-full object-cover rounded-full" />
                                     </button>
+                                    {
+                                        userNavPanel ?
+                                            <UserNavigationPanel /> : ""
+                                    }
                                 </div>
                             </>
                             :
