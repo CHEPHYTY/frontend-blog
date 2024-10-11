@@ -8,6 +8,7 @@ import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
 import { storeInSession } from "../common/session";
 import { UserContext } from "../App";
+import authWithGoogle from "../common/firebase";
 
 
 const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -106,6 +107,47 @@ const UserAuthForm = ({ type }) => {
     };
 
 
+    // const handleGoogleAuth = (e) => {
+    //     e.preventDefault();
+
+    //     authWithGoogle()
+    //         .then(user => {
+    //             // console.log(user);
+    //             let serverRoute = "/google-auth"
+
+    //             let formData = {
+    //                 accessToken: user.accessToken
+    //             }
+
+    //             userAuthThroughServer(serverRoute, formData)
+    //         })
+    //         .catch(err => {
+    //             toast.error("Trouble login through google");
+    //             console.log(err);
+    //         })
+    // }
+
+    const handleGoogleAuth = (e) => {
+        e.preventDefault();
+
+        authWithGoogle()
+            .then(user => {
+                console.log("Google User:", user); // Log the user returned from Google Auth
+                let serverRoute = "/google-auth";
+
+                let formData = {
+                    accessToken: user.accessToken
+                };
+
+                userAuthThroughServer(serverRoute, formData);
+            })
+            .catch(err => {
+                toast.error("Trouble login through Google");
+                console.log(err);
+            });
+        toast.success("Successfully Login")
+    };
+
     return (
 
         accessToken ?
@@ -159,7 +201,8 @@ const UserAuthForm = ({ type }) => {
                             <hr className="w-1/2 border-black" />
                         </div>
 
-                        <button className="btn-dark flex items-center justify-center gap-4 w-[90% center">
+                        <button className="btn-dark flex items-center justify-center gap-4 w-[90% center"
+                            onClick={handleGoogleAuth}>
                             <img src={googleIcon} alt="" className="w-5" />
                             continue with Google
                         </button>

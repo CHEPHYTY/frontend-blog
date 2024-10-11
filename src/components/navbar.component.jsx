@@ -27,6 +27,8 @@ const Navbar = () => {
 
     let user = JSON.parse(lookInSession("user"))
 
+    // const profileimg = user.profile_img.toString()
+
 
     return (
         <>
@@ -73,7 +75,7 @@ const Navbar = () => {
 
                                 <div className="relative" onClick={handleUserNavPanel} onBlur={handleBlur}>
                                     <button className="w-12 h-12 mt-1">
-                                        <img src={user.profile_img} alt="" className="w-full h-full object-cover rounded-full" />
+                                        <img src={user.profile_img.toString()} alt="" className="w-full h-full object-cover rounded-full" />
                                     </button>
                                     {
                                         userNavPanel ?
