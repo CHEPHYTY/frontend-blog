@@ -1,10 +1,19 @@
 import { Link, Outlet } from "react-router-dom";
 import logo from "../imgs/logo.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../App";
+import { lookInSession } from "../common/session";
 
 
 const Navbar = () => {
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
+
+    const { userAuth, userAuth: { accessToken } } = useContext(UserContext)
+
+    // console.log(user.profile_img)
+
+    let user = JSON.parse(lookInSession("user"))
+
 
     return (
         <>
@@ -40,13 +49,34 @@ const Navbar = () => {
                         <p>Write</p>
                     </Link>
 
-                    <Link className="btn-dark py-2" to="/signin">
-                        Sign In
-                    </Link>
+                    {
+                        accessToken ?
+                            <>
+                                <Link to="/dashboard/notification">
+                                    <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10">
+                                        <i className="fi fi-rr-bell text-2xl align-middle"></i>
+                                    </button>
+                                </Link>
 
-                    <Link className="btn-light py-2 hidden md:block" to="/signup">
-                        Sign Up
-                    </Link>
+                                <div className="relative">
+                                    <button className="w-12 h-12 mt-1">
+                                        <img src={user.profile_img} alt="" className="w-full h-full object-cover rounded-full" />
+                                    </button>
+                                </div>
+                            </>
+                            :
+                            <>
+                                <Link className="btn-dark py-2" to="/signin">
+                                    Sign In
+                                </Link>
+
+                                <Link className="btn-light py-2 hidden md:block" to="/signup">
+                                    Sign Up
+                                </Link>
+                            </>
+                    }
+
+
                 </div>
             </nav>
 
