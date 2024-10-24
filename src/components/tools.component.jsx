@@ -64,7 +64,7 @@ export const tools = {
         config: {
             uploader: {
                 uploadByUrl: uploadImageByURL,
-                uploadByfile: uploadImageByFile,
+                uploadByFile: uploadImageByFile,
             }
         }
     },
